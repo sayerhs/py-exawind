@@ -16,3 +16,4 @@ dependencies:
   - pyyaml
   - ruamel_yaml
   - ipython
+  - pytz
