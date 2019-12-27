@@ -1,0 +1,7 @@
+# Pip requirements file template
+numpy
+scipy
+matplotlib
+pyyaml
+ruamel.yaml
+ipython

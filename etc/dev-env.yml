@@ -1,0 +1,25 @@
+# -*- mode: yaml
+#
+# Exawind Python Library's Conda environment definition file
+#
+# Development environment
+#
+# Usage:
+#  conda env create -f etc/environment.yml
+
+name: exawind
+
+dependencies:
+  - python=3
+  - pip
+  - numpy
+  - scipy
+  - matplotlib
+  - pyyaml
+  - ruamel_yaml
+  - ipython
+  - cython
+  - scikit-build
+  - sphinx
+  - pytest
+  - pylint
