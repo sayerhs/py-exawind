@@ -58,7 +58,7 @@ def backup_filename(fname, time_format=None, time_zone=pytz.utc):
         str: A suitable backup filename with timestamp information
     """
     time_fmt = time_format or "%Y%m%d-%H%M%S-%Z"
-    local = True if time_zone is None else False
+    local = time_zone is None
     tstamp = timestamp(time_fmt, local=local, time_zone=time_zone)
     pname = Path(fname)
     new_name = pname.stem + "_" + tstamp + pname.suffix
