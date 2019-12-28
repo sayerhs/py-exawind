@@ -40,6 +40,7 @@ setup(
     classifiers=classifiers,
     include_package_data=True,
     packages=[
-        'exawind'
+        'exawind',
+        'exawind.prelude',
     ],
 )

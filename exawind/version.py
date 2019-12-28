@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Exawind version
+Exawind version information
 """
 
 import os
@@ -9,10 +9,19 @@ import subprocess
 import shlex
 from pathlib import Path
 
+__all__ = [
+    "version",
+    "full_version",
+    "git_revision"
+]
+
 version = "v0.0.1"
 
 def get_git_revision():
-    """Return the git SHA ID if available"""
+    """Return the git SHA ID if available
+
+    Adapted from: https://github.com/numpy/numpy/blob/master/setup.py
+    """
     def _minimal_ext_cmd(cmd):
         # construct minimal environment
         env = {}
