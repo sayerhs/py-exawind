@@ -20,3 +20,11 @@ def test_abspath():
     fpath = utils.abspath(stk_root)
     factual = Path.home() / "exawind" / "install" / "gcc" / "trilinos"
     assert fpath == factual
+
+def test_execdir(tmpdir):
+    tstdir = tmpdir.mkdir("test_case")
+    pth = Path(str(tstdir))
+    cwd = Path.cwd()
+    with utils.exec_dir(pth):
+        assert Path.cwd() == pth
+    assert cwd == Path.cwd()
