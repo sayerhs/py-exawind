@@ -1,0 +1,56 @@
+# -*- mode: yaml -*-
+#
+# Default Exawind configuration
+#
+
+exawind:
+  logging:
+    log_to_file: no
+    log_file: null
+
+    pylogger_options:
+      version: 1
+      disable_existing_loggers: no
+
+      formatters:
+        stdout:
+          format: "%(levelname).4s: %(message)s"
+
+        default:
+          format: "%(asctime)s:%(name)s:%(levelname)s: %(message)s"
+      handlers:
+        exawind_console:
+          class: logging.StreamHandler
+          level: INFO
+          formatter: stdout
+          stream: "ext://sys.stdout"
+
+        exawind_script_console:
+          class: logging.StreamHandler
+          level: INFO
+          formatter: stdout
+          stream: "ext://sys.stdout"
+
+        exawind_log_file:
+          class: logging.handlers.RotatingFileHandler
+          filename: "exawind.log"
+          level: DEBUG
+          formatter: default
+          maxBytes: 10485760
+          backupCount: 10
+          encoding: utf8
+
+      loggers:
+        exawind:
+          level: DEBUG
+          handlers: [exawind_console]
+          propagate: no
+
+        exawind.scripts:
+          level: DEBUG
+          handlers: [exawind_script_console]
+          propagate: no
+
+      root:
+        level: DEBUG
+        handlers: [exawind_console]
