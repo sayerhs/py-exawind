@@ -70,8 +70,8 @@ class ExawindCfgManager(cfg.ConfigManager):
                 rank = comm.Get_rank()
                 if rank > 0:
                     handlers = logger_cfg.handlers
-                    handlers.exawind_console.level = "CRITICAL"
-                    handlers.exawind_script_console.level = "CRITICAL"
+                    handlers.exawind_console.level = "ERROR"
+                    handlers.exawind_script_console.level = "ERROR"
                     fmt_opts = logger_cfg.formatters
                     stdout_fmt = fmt_opts.stdout.format
                     fmt_opts.stdout.format = "[%d] "%rank + stdout_fmt
