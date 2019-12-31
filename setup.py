@@ -43,4 +43,8 @@ setup(
         'exawind',
         'exawind.prelude',
     ],
+    entry_points="""
+    [console_scripts]
+    exawind_nalu=exawind.cli.exawind_nalu:main
+    """
 )
