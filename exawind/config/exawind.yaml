@@ -14,7 +14,7 @@ exawind:
 
       formatters:
         stdout:
-          format: "%(levelname).4s: %(message)s"
+          format: "%(levelname)s: %(message)s"
 
         default:
           format: "%(asctime)s:%(name)s:%(levelname)s: %(message)s"
@@ -46,7 +46,7 @@ exawind:
           handlers: [exawind_console]
           propagate: no
 
-        exawind.scripts:
+        exawind.cli:
           level: DEBUG
           handlers: [exawind_script_console]
           propagate: no
