@@ -41,20 +41,8 @@ class TransformMesh(NaluTask, task_name="transform_mesh"):
     @staticmethod
     def _process_rotation(options):
         """Process a rotation definition"""
-        rot_map = dict(quarternion=TrMat.Q, rot_x=TrMat.X,
-                       rot_y=TrMat.Y, rot_z=TrMat.Z, axes=TrMat.axes)
-        rot_type = options.get("rotation_type", "quarternion")
-        if rot_type not in rot_map:
-            raise KeyError("Unknown rotation type: %s"%rot_type)
         origin = Vec(options.get("origin", Vec.zero()))
-        tmat = None
-        if rot_type == "quarternion":
-            tmat = TrMat.Q(axis=np.asarray(options.axis), angle=options.angle)
-        elif rot_type[:4] == "rot_":
-            tmat = rot_map[rot_type](angle=options.angle)
-        else:
-            tmat = rot_map[rot_type](x=options.xdir, y=options.ydir, z=options.zdir)
-
+        tmat = TrMat.from_dict(options)
         parts = options.get("parts", None)
         return Struct(ttype="rotation", parts=parts, rot_mat=tmat, origin=origin)
 

@@ -190,6 +190,53 @@ class TrMat(np.ndarray):
         """Scaling transformation"""
         return (np.eye(cls._dim) * np.array([x, y, z])).view(cls)
 
+    @classmethod
+    def from_dict(cls, opts):
+        """Create a transformation matrix from dictionary
+
+        Valid forms of input for the dictionary:
+
+        .. code-block:: yaml
+
+           # Quarternion representation
+           rotation_type: quarternion
+           axis: [1.0, 1.0, 1.0]
+           angle: 120.0
+
+           # Rotation about X-axis
+           rotation_type: rot_x             # rot_x, rot_y, or rot_z
+           angle: 90.0
+
+           # Axes specification
+           rotation_type: axes
+           xdir: [0.0, 1.0, 0.0]
+           ydir: [0.0, 0.0, 1.0]
+        """
+        valid_types = "quaternion rot_x rot_y rot_z axes".split()
+        rot_type = opts.get("rotation_type", "quaternion")
+        if rot_type not in valid_types:
+            raise KeyError("Invalid rotation_type: %s"%rot_type)
+        tmat = None
+        if rot_type == "quaternion":
+            axis = np.asarray(opts["axis"])
+            angle = opts["angle"]
+            tmat = cls.Q(axis=axis, angle=angle)
+        elif rot_type == "rot_x":
+            angle = opts["angle"]
+            tmat = cls.X(angle=angle)
+        elif rot_type == "rot_y":
+            angle = opts["angle"]
+            tmat = cls.Y(angle=angle)
+        elif rot_type == "rot_z":
+            angle = opts["angle"]
+            tmat = cls.Z(angle=angle)
+        else:
+            xdir = opts.get("xdir", None)
+            ydir = opts.get("ydir", None)
+            zdir = opts.get("zdir", None)
+            tmat = cls.axes(x=xdir, y=ydir, z=zdir)
+        return tmat
+
     def __getitem__(self, *args, **kwargs):
         return np.asarray(self).__getitem__(*args, **kwargs)
 
