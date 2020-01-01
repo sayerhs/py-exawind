@@ -10,6 +10,7 @@ Struct - an attribute dictionary
 __all__ = ["Struct"]
 
 from abc import ABCMeta
+from pathlib import Path
 from collections import OrderedDict
 from collections.abc import MutableMapping, Mapping
 import json
@@ -207,6 +208,32 @@ class Struct(OrderedDict, MutableMapping, metaclass=_StructMeta):
         """
         with open(filename, 'r') as fh:
             return cls.from_json(fh)
+
+    @classmethod
+    def load_file(cls, filename):
+        """Load a file based on extension type
+
+        Args:
+            filename (path): A filename with one of the valid extension types
+        """
+        fmap = {
+            ".yaml": cls.load_yaml,
+            ".yml": cls.load_yaml,
+            ".json": cls.load_json
+        }
+        ftype = Path(filename).suffix
+        if ftype not in fmap:
+            raise ValueError("Unknown filetype specified: %s"%ftype)
+        return fmap[ftype](filename)
+
+    @classmethod
+    def as_struct(cls, obj):
+        """Return as Struct object if not already a Struct"""
+        if isinstance(obj, cls):
+            return obj
+
+        assert isinstance(obj, Mapping), "Cannot convert non-dictionary type"
+        return cls(**obj)
 
     def _getattr(self, key):
         return super(Struct, self).__getattribute__(key)

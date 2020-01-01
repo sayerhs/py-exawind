@@ -107,10 +107,7 @@ class ConfigManager(metaclass=abc.ABCMeta):
     def load_cfg_file(self, cfg_file):
         """Load a configuration file"""
         cfg_cls = self.cfg_class()
-        loader_map = dict(
-            yaml=cfg_cls.load_yaml,
-            json=cfg_cls.load_json)
-        cfg = loader_map[self.rc_type()](cfg_file)
+        cfg = cfg_cls.load_file(cfg_file)
         return cfg
 
     def reset_to_defaults(self):
