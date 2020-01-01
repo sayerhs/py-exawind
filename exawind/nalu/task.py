@@ -31,6 +31,11 @@ class NaluTask(abc.ABC):
         obj = tcls(cfd_mesh)
         return obj
 
+    @classmethod
+    def available_tasks(cls):
+        """Dictionary containing registered tasks"""
+        return cls._available_tasks
+
     def __init__(self, mesh):
         self.mesh = mesh
 
