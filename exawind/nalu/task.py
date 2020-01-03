@@ -48,7 +48,7 @@ class NaluTask(abc.ABC):
         cls._available_tasks[task_name] = cls
         cls._task_name = task_name
 
-    def process_inputs(self, *args, **kwargs):
+    def process_inputs(self, options, default_parts=None):
         """Parse inputs"""
 
     def init_meta_data(self):
