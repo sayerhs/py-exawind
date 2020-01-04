@@ -37,10 +37,10 @@ def get_git_revision():
                                 stderr=subprocess.PIPE, env=env)
         return task
 
-
     dirname = Path(__file__).parent.resolve()
     cwd = os.getcwd()
     git_ver = "unknown"
+    git_dirty = ""
     try:
         os.chdir(dirname)
         cmdline = "git rev-parse HEAD"
@@ -49,13 +49,20 @@ def get_git_revision():
         out, _ = task.communicate()
         if task.poll() == 0:
             git_ver = out.strip().decode('ascii')
+
+            cmdline = "git diff-index --quiet HEAD"
+            cmd = shlex.split(cmdline)
+            task1 = _minimal_ext_cmd(cmd)
+            _, _ = task1.communicate()
+            if task1.poll() == 1:
+                git_dirty = "-dirty"
     finally:
         os.chdir(cwd)
 
-    return git_ver
+    return git_ver, git_dirty
 
-git_revision = get_git_revision()
+git_revision, git_ver_dirty = get_git_revision()
 
 full_version = version
 if git_revision != "unknown":
-    full_version = version + "-g" + git_revision[:7]
+    full_version = version + "-g" + git_revision[:7] + git_ver_dirty
