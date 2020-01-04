@@ -9,6 +9,7 @@ import logging
 from pathlib import Path
 from ...prelude.struct import Struct
 from ...nalu.task import NaluTaskRunner, NaluTask
+from ..cli import get_epilog
 
 _lgr = logging.getLogger(__name__)
 
@@ -16,12 +17,16 @@ class NaluTaskCLI:
     """Nalu-Wind Tasks sub-command"""
     # pylint: disable=too-few-public-methods
 
-    def __init__(self, parser):
+    def __init__(self, subparsers, subcmd_name="tasks"):
         """
         Args:
             parser: An argparse instance
         """
-        self.parser = parser
+        parser = subparsers.add_parser(
+            subcmd_name,
+            description="Run pre/post-processing tasks as defined in YAML file",
+            help="run pre/post processing tasks",
+            epilog=get_epilog())
         parser.add_argument(
             '-l', '--list-tasks', action='store_true',
             help="List available tasks and exit")
@@ -29,6 +34,7 @@ class NaluTaskCLI:
             '-i', '--input-file', default='nalu_tasks.yaml',
             help="Input file describing pre/post tasks (nalu_tasks.yaml)")
         parser.set_defaults(func=self)
+        self.parser = parser
 
     def run_tasks(self, args):
         """Execute the tasks"""

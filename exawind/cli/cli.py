@@ -13,6 +13,10 @@ from ..version import full_version
 
 _lgr = logging.getLogger(__name__)
 
+def get_epilog():
+    """Return the epilog string"""
+    return "ExaWind Python Library %s"%full_version
+
 class CLIBase:
     """ExaWind CLI interface
 

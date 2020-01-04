@@ -18,11 +18,7 @@ class NaluCLI(CLISubCmdBase):
         super().cli_options()
         subparsers = self.subparsers
 
-        tasks = subparsers.add_parser(
-            "tasks",
-            description="Run pre/post-processing tasks as defined in YAML file",
-            help="run pre/post processing tasks")
-        self.sub_commands["tasks"] = NaluTaskCLI(tasks)
+        self.sub_commands["tasks"] = NaluTaskCLI(subparsers, "tasks")
 
 
 def main():
